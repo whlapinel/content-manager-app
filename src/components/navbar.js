@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Navbar () {
 
     return (
@@ -23,12 +25,14 @@ export default function Navbar () {
                   </span>
                 </div>
               </div>
-              <a className="navbar-item is-active is-size-5 has-text-weight-semibold">
-                Home
-              </a>
-              <a className="navbar-item is-size-5 has-text-weight-semibold">
-                Examples
-              </a>
+              <Link href="/"
+              className="navbar-item is-active is-size-5 has-text-weight-semibold">  
+              Home
+              </Link>
+              <Link href="/resources/new"
+              className="navbar-item is-size-5 has-text-weight-semibold">
+                Add
+              </Link>
               <a className="navbar-item is-size-5 has-text-weight-semibold">
                 Features
               </a>
