@@ -1,8 +1,10 @@
 import Layout from "@/components/layout";
 import { useState } from "react";
+import axios from 'axios';
+import { useRouter } from "next/router";
 
 const DEFAULT_DATA = {
-  title: "test",
+  title: "",
   description: "",
   link: "",
   priority: "2",
@@ -11,15 +13,31 @@ const DEFAULT_DATA = {
 
 export default function ResourceCreate() {
   const [form, setForm] = useState(DEFAULT_DATA);
+  const router = useRouter();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    alert(JSON.stringify(form));
+    try {
+        const response = await axios.post('../api/resources', form);
+        await router.push('/');
+    }
+    catch (error) {
+        alert(error.response.data);
+    }
+    setForm(DEFAULT_DATA);
+     
+    // .then(() => {})
+    // .catch((err) => {alert(err.response.data)})
   }
 
   function handleChange(e) {
     const { name, value } = e.target;
     setForm({...form, [name]: value});
+  }
+
+  function handleResetForm(e) {
+    e.preventDefault();
+    setForm(DEFAULT_DATA);
   }
 
   return (
@@ -72,8 +90,8 @@ export default function ResourceCreate() {
                   <label className="label">Priority</label>
                   <div className="control">
                     <div className="select">
-                      <select name="priority" value={form.priority}>
-                        onChange={handleChange}
+                      <select name="priority" value={form.priority}
+                        onChange={handleChange}>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -102,7 +120,8 @@ export default function ResourceCreate() {
                     </button>
                   </div>
                   <div className="control">
-                    <button className="button is-link is-light">Cancel</button>
+                    <button className="button is-link is-light"
+                    onClick={handleResetForm}>Reset Form</button>
                   </div>
                 </div>
               </form>
